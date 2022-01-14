@@ -50,6 +50,13 @@ a {
         .icon {
           cursor: pointer;
           display: flex;
+          align-items: center;
+          button{
+            padding: 5px 10px;
+            background-color: rgb(6,57,112);
+            color: white;
+            cursor: pointer;
+          }
           .fa-trash {
             color: red;
           }
@@ -61,6 +68,25 @@ a {
           display: block;
           margin-left: 10px;
         }
+      }
+      li.checked{
+        background: #888;
+        color: #fff;
+        text-decoration: line-through;
+      }
+    }
+
+    .bottom_btn{
+      text-align: center;
+      padding: 10px;
+      button{
+        padding: 5px 10px;
+        color: white;
+        cursor: pointer;
+        background-color: black;
+      }
+      .checkAll{
+        margin-right: 10px;
       }
     }
   }
