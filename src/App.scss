@@ -98,17 +98,16 @@ body {
           }
           .check_box {
             margin-right: 5px;
-            color: #fff;
+            color: #333;
             width: 25px;
             text-align: center;
             border-radius: 3px;
-            background: #b40486;
             cursor: pointer;
             padding: 2px;
           }
         }
         .checked {
-          color: #ccc;
+          background-color: #ccc;
           text-decoration: line-through;
           span:not(.check_box) {
             display: none;

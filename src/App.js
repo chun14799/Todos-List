@@ -10,6 +10,7 @@ const App = () => {
   const [input, setInput] = useState("")
   const [selectedTodo, setSelectedTodo] = useState(null)
   const [clicked, setClicked] = useState(false)
+  const [checkedAll, setCheckedAll] = useState(false)
 
 
   const handleChange = (e) => {
@@ -62,6 +63,7 @@ const App = () => {
   }
 
   const handleCheck = (id) => {
+    setClicked(true)
     setTodos(
       todos.map((val) => {
         if (val.id === id) {
@@ -73,10 +75,15 @@ const App = () => {
         return val
       })
     )
+    if (clicked === true) {
+      setClicked(false)
+    } else {
+      setClicked(true)
+    }
   }
 
   const handleCheckAll = () => {
-    setClicked(true)
+    setCheckedAll(true)
     setTodos(
       todos.map((val) => {
         return {
@@ -86,10 +93,10 @@ const App = () => {
       })
     )
 
-    if (clicked === true) {
-      setClicked(false)
+    if (checkedAll === true) {
+      setCheckedAll(false)
     } else {
-      setClicked(true)
+      setCheckedAll(true)
     }
   }
 
@@ -120,7 +127,7 @@ const App = () => {
                 (
                   todos.map((val) => (
                     <li key={val.id} className={val.isDone ? 'checked' : ""}>
-                      <span className='check_box' onClick={() => handleCheck(val.id)}><i class="far fa-check-square"></i></span>
+                      <span className='check_box' onClick={() => handleCheck(val.id)}>{clicked ? <i class="far fa-check-square"></i> : <i class="far fa-square"></i>}</span>
                       {val.content}
                       <span className='edit_btn' onClick={() => handleUpdate(val.id)}><i className="fas fa-edit"></i></span>
                       <span className='delete_btn' onClick={() => handleDelete(val.id)}><i className="fas fa-trash"></i></span>
@@ -134,7 +141,7 @@ const App = () => {
             {/* <span>Mày còn {pending} tasks kìa</span> */}
             <div className="footer_btn">
               <button onClick={handleDeleteAll}>Delete All</button>
-              <button className='check_all' onClick={handleCheckAll}>{clicked ? "Uncheck All" : "Check All"}</button>
+              <button className='check_all' onClick={handleCheckAll}>{checkedAll ? "Uncheck All" : "Check All"}</button>
             </div>
           </div>
         </div>
