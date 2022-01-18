@@ -5,88 +5,142 @@ import { useState } from 'react';
 
 //functional component
 const App = () => {
-  //state
-  //react hooks
-  const [input, setInput] = useState(""); //[a,b]
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      content: "Todo 1",
-      active: false,
-    },
-    {
-      id: 2,
-      content: "Todo 2",
-      active: true,
-    },
-  ]);
-  const [selectedTodos, setSelectedTodos] = useState(null)
-  // 1 state ---> tên (age), function để thay đổi state đó()
+
+  const [todos, setTodos] = useState([])
+  const [input, setInput] = useState("")
+  const [selectedTodo, setSelectedTodo] = useState(null)
+  const [clicked, setClicked] = useState(false)
+  const [pending, setPending] = useState(todos.length)
+
   const handleChange = (e) => {
     setInput(e.target.value)
   };
 
+
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!selectedTodos) {
-      //add
-      setTodos([...todos, { id: Date.now(), content: input, status: false }])
-      setInput("");
+    e.preventDefault()
+    if (!selectedTodo) {
+      setTodos([
+        ...todos,
+        {
+          id: Date.now(),
+          content: input,
+          isDone: false
+        }
+      ])
+      setInput("")
+      setPending(todos.length + 1)
     } else {
-      //update
-      const newTodos = todos.map(val => {
-        if (val.id === selectedTodos.id) {
+      const newTodos = todos.map((val) => {
+        if (val.id === selectedTodo.id) {
           return {
-            ...selectedTodos,
+            ...todos,
             content: input
           }
         }
         return val
       })
-
       setTodos(newTodos)
       setInput("")
-      setSelectedTodos(null)
+      setSelectedTodo(null)
     }
-  };
+  }
+
+  const handleUpdate = (id) => {
+    const idx = todos.findIndex(val => val.id === id)
+    setInput(todos[idx].content)
+    setSelectedTodo(todos[idx])
+  }
+  const handleCancel = () => {
+    setSelectedTodo(null)
+    setInput("")
+  }
 
   const handleDelete = (id) => {
     const newTodos = todos.filter(val => val.id !== id)
     setTodos(newTodos)
   }
 
-  const handleUpdate = (id) => {
-    const idx = todos.findIndex(val => val.id === id)
-    setInput(todos[idx].content)
-    setSelectedTodos(todos[idx])
+  const handleCheck = (id) => {
+    setTodos(
+      todos.map((val) => {
+        if (val.id === id) {
+          return {
+            ...val,
+            isDone: !val.isDone
+          }
+        }
+        return val
+      })
+    )
   }
-  const handleCancle = () => {
-    setSelectedTodos(null)
-    setInput("")
+
+  const handleCheckAll = () => {
+    setClicked(true)
+    setTodos(
+      todos.map((val) => {
+        return {
+          ...val,
+          isDone: !val.isDone
+        }
+      })
+    )
+
+    if (clicked === true) {
+      setClicked(false)
+    } else {
+      setClicked(true)
+    }
+  }
+
+  const handleDeleteAll = () => {
+    setTodos([])
   }
 
   return (
     <div className="App">
-      <div className="todo">
-        <h2>TODO LIST</h2>
-        <form onSubmit={handleSubmit}>
-          <input value={input} type="text" onChange={handleChange} />
-          <button>{selectedTodos ? "Update" : "Add"}</button>
-          {selectedTodos && <button onClick={handleCancle}>Cancle</button>}
-
-        </form>
-        <ul>
-          {todos.map((val) => (
-            <li key={val.id}>{val.content}
-              <div className="icon">
-                <i onClick={() => handleUpdate(val.id)} className="fas fa-edit"></i>
-                <i onClick={() => handleDelete(val.id)} className="fas fa-trash"></i>
-              </div>
-            </li>
-          ))}
-        </ul>
+      <div className="app_block">
+        <div className="container">
+          <form onSubmit={handleSubmit}>
+            {/* Title */}
+            <div className="title">
+              <h1>Hôm nay mày làm gì?</h1>
+            </div>
+            {/* Input Field */}
+            <div className="input_field">
+              <input onChange={handleChange} value={input} type="text" placeholder='Ráng kiếm gì làm đi mài' />
+              <button>{selectedTodo ? <i className="fas fa-check"></i> : <i className="fas fa-plus"></i>}</button>
+              {selectedTodo && <button onClick={handleCancel}><i className="fas fa-times"></i></button>}
+            </div>
+          </form>
+          {/* Todo list */}
+          <ul className="todo_list">
+            {
+              todos.length === 0 ? (<li>No item ...</li>) :
+                (
+                  todos.map((val) => (
+                    <li key={val.id} className={val.isDone ? 'checked' : ""}>
+                      <span className='check_box' onClick={() => handleCheck(val.id)}><i class="far fa-check-square"></i></span>
+                      {val.content}
+                      <span className='edit_btn' onClick={() => handleUpdate(val.id)}><i className="fas fa-edit"></i></span>
+                      <span className='delete_btn' onClick={() => handleDelete(val.id)}><i className="fas fa-trash"></i></span>
+                    </li>
+                  ))
+                )
+            }
+          </ul>
+          {/* Footer */}
+          <div className="footer">
+            {/* <span>Mày còn {pending} tasks kìa</span> */}
+            <div className="footer_btn">
+              <button onClick={handleDeleteAll}>Delete All</button>
+              <button className='check_all' onClick={handleCheckAll}>{clicked ? "Uncheck All" : "Check All"}</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </div >
   );
 }
 
