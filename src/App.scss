@@ -52,6 +52,7 @@ body {
           color: #fff;
           font-size: 22px;
           cursor: pointer;
+<<<<<<< HEAD
           border-radius: 3px;
           margin-left: 5px;
         }
@@ -71,6 +72,18 @@ body {
           overflow: hidden;
           &:hover span {
             right: 0px;
+=======
+          display: flex;
+          align-items: center;
+          button{
+            padding: 5px 10px;
+            background-color: rgb(6,57,112);
+            color: white;
+            cursor: pointer;
+          }
+          .fa-trash {
+            color: red;
+>>>>>>> 20006d355f6f70e5e1ed3f90b7c280df4e76ced6
           }
           &:hover span.edit_btn {
             right: 50px;
@@ -142,6 +155,25 @@ body {
             margin-left: 10px;
           }
         }
+      }
+      li.checked{
+        background: #888;
+        color: #fff;
+        text-decoration: line-through;
+      }
+    }
+
+    .bottom_btn{
+      text-align: center;
+      padding: 10px;
+      button{
+        padding: 5px 10px;
+        color: white;
+        cursor: pointer;
+        background-color: black;
+      }
+      .checkAll{
+        margin-right: 10px;
       }
     }
   }
