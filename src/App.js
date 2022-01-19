@@ -21,7 +21,7 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!selectedTodo) {
+    if (!selectedTodo && input !== "") {
       setTodos([
         ...todos,
         {
@@ -33,7 +33,7 @@ const App = () => {
       setInput("")
     } else {
       const newTodos = todos.map((val) => {
-        if (val.id === selectedTodo.id) {
+        if (val.id === selectedTodo.id && input !== "") {
           return {
             ...todos,
             content: input
@@ -104,6 +104,8 @@ const App = () => {
     setTodos([])
   }
 
+
+
   return (
     <div className="App">
       <div className="app_block">
@@ -127,7 +129,7 @@ const App = () => {
                 (
                   todos.map((val) => (
                     <li key={val.id} className={val.isDone ? 'checked' : ""}>
-                      <span className='check_box' onClick={() => handleCheck(val.id)}>{clicked ? <i class="far fa-check-square"></i> : <i class="far fa-square"></i>}</span>
+                      <span className='check_box' onClick={() => handleCheck(val.id)}>{clicked ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i>}</span>
                       {val.content}
                       <span className='edit_btn' onClick={() => handleUpdate(val.id)}><i className="fas fa-edit"></i></span>
                       <span className='delete_btn' onClick={() => handleDelete(val.id)}><i className="fas fa-trash"></i></span>
@@ -141,7 +143,7 @@ const App = () => {
             {/* <span>Mày còn {pending} tasks kìa</span> */}
             <div className="footer_btn">
               <button onClick={handleDeleteAll}>Delete All</button>
-              <button className='check_all' onClick={handleCheckAll}>{checkedAll ? "Uncheck All" : "Check All"}</button>
+              <button className='check_all' onClick={handleCheckAll}>Check All</button>
             </div>
           </div>
         </div>
